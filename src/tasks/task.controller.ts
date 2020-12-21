@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, Post, Delete, Patch, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Delete, Patch, Query, UsePipes, ValidationPipe } from '@nestjs/common'
 import { TaskService } from './task.service'
 import { Task, TaskStatus } from './task.model'
 import { CreateTaskDto } from './dto/create-task.dto'
-import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
+import { GetTasksFilterDto } from './dto/get-tasks-filter.dto'
+import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe'
 
 @Controller('tasks')
 export class TaskController {
