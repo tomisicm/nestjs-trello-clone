@@ -10,4 +10,9 @@ export class AuthController {
     async signUp(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto) {
         await this.authService.signUp(authCredentialsDto)
     }
+
+    @Post('/signin')
+    async signIn(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto) {
+        return await this.authService.signIn(authCredentialsDto)
+    }
 }
