@@ -1,5 +1,6 @@
 import { NotFoundException } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
+import { CreateTaskDto } from '../dto/create-task.dto'
 import { GetTasksFilterDto } from '../dto/get-tasks-filter.dto'
 import { TaskStatus } from '../task-status.enum'
 import { TaskRepository } from '../task.repository'
@@ -7,7 +8,9 @@ import { TaskService } from './../task.service'
 
 const mockTaskRepository = () => ({
     find: jest.fn(),
-    findOne: jest.fn()
+    findOne: jest.fn(),
+    save: jest.fn(),
+    delete: jest.fn()
 })
 
 const mockUser = { username: 'Testuser' }
@@ -49,7 +52,7 @@ describe('TaskService', () => {
             description: 'mocked task desc'
         }
 
-        it('cals taskRepository.findOne() and succesfully retrive and return the task', async () => {
+        it('calls taskRepository.findOne() and succesfully retrive and return the task', async () => {
             expect(taskRepository.findOne).not.toHaveBeenCalled()
             taskRepository.findOne.mockResolvedValue(mockTask)
 
@@ -65,6 +68,91 @@ describe('TaskService', () => {
             await expect(taskService.getTaskById(mockTask.id)).rejects.toThrow(
                 NotFoundException
             )
+        })
+    })
+
+    describe('createTask', () => {
+        const mockTask: CreateTaskDto = {
+            title: 'mocked task title',
+            description: 'mocked task desc'
+        }
+
+        it('calls taskRepository.save() and succesfully retrive and return the task', async () => {
+            expect(taskRepository.save).not.toHaveBeenCalled()
+            taskRepository.save.mockResolvedValue({
+                ...mockTask,
+                status: 'OPEN'
+            })
+
+            const result = await taskService.createTask(mockTask)
+
+            expect(taskRepository.save).toHaveBeenCalled()
+            expect(result).toEqual({ ...mockTask, status: 'OPEN' })
+        })
+    })
+
+    describe('updateTask', () => {
+        const mockTask = {
+            id: 1,
+            title: 'mocked task title',
+            description: 'mocked task desc',
+            status: 'OPEN'
+        }
+
+        it('calls taskRepository.save() and succesfully retrive and return the task', async () => {
+            expect(taskRepository.save).not.toHaveBeenCalled()
+            taskRepository.save.mockResolvedValue(mockTask)
+            taskService.getTaskById = jest.fn().mockResolvedValue(mockTask)
+
+            const result = await taskService.updateTask(
+                mockTask.id,
+                'IN_PROGRESS'
+            )
+
+            expect(taskRepository.save).toHaveBeenCalled()
+            expect(result).toEqual({ ...mockTask, status: 'IN_PROGRESS' })
+        })
+
+        it('throws an error as task is not found', async () => {
+            expect(taskRepository.save).not.toHaveBeenCalled()
+            taskRepository.save.mockResolvedValue({
+                ...mockTask,
+                status: 'IN_PROGRESS'
+            })
+
+            await expect(
+                taskService.updateTask(mockTask.id, 'IN_PROGRESS')
+            ).rejects.toThrow(NotFoundException)
+        })
+    })
+
+    describe('deleteTask', () => {
+        const mockTask = {
+            id: 1,
+            title: 'mocked task title',
+            description: 'mocked task desc'
+        }
+
+        it('calls taskRepository.save() and succesfully retrive and return the task', async () => {
+            expect(taskRepository.delete).not.toHaveBeenCalled()
+            taskRepository.delete.mockResolvedValue({
+                affected: 1
+            })
+
+            await taskService.deleteTaskById(mockTask.id)
+
+            expect(taskRepository.delete).toHaveBeenCalled()
+        })
+
+        it('throws an error as task is not found', async () => {
+            expect(taskRepository.delete).not.toHaveBeenCalled()
+            taskRepository.delete.mockResolvedValue({
+                affected: 0
+            })
+
+            await expect(
+                taskService.deleteTaskById(mockTask.id)
+            ).rejects.toThrow(NotFoundException)
         })
     })
 })
