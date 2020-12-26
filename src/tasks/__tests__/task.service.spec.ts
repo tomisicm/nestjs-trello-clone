@@ -62,7 +62,7 @@ describe('TaskService', () => {
         it('throws an error as task is not found', async () => {
             taskRepository.findOne.mockResolvedValue(null)
 
-            expect(taskService.getTaskById(mockTask.id)).rejects.toThrow(
+            return expect(taskService.getTaskById(mockTask.id)).rejects.toThrow(
                 NotFoundException
             )
         })
