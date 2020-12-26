@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm'
-import { ConflictException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common'
+import { ConflictException, InternalServerErrorException } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 import { User } from './user.entity'
 import { AuthCredentialsDto } from './dto/auth-credentials.dto'
@@ -9,20 +9,16 @@ export class UserRepository extends Repository<User> {
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
         const { username, password } = authCredentialsDto
 
-        const salt = this.getSalt()
-
         const user = new User()
         user.username = username
         user.salt = await this.getSalt()
-        user.password = await this.hashPassword(
-            password,
-            user.salt
-        )
+        user.password = await this.hashPassword(password, user.salt)
 
         try {
             await user.save()
         } catch (e) {
-            if (e.code === '23505') { // duplicate username
+            if (e.code === '23505') {
+                // duplicate username
                 throw new ConflictException('Username already exits.')
             } else {
                 throw new InternalServerErrorException()
@@ -40,11 +36,11 @@ export class UserRepository extends Repository<User> {
         return false
     }
 
-    async hashPassword (password: string, salt: string) : Promise<string> {
+    async hashPassword(password: string, salt: string): Promise<string> {
         return await bcrypt.hash(password, salt)
     }
 
-    async getSalt() : Promise<string> {
+    async getSalt(): Promise<string> {
         return await bcrypt.genSalt()
     }
 }

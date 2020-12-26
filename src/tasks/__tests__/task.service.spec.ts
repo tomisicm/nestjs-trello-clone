@@ -2,7 +2,6 @@ import { NotFoundException } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { GetTasksFilterDto } from '../dto/get-tasks-filter.dto'
 import { TaskStatus } from '../task-status.enum'
-import { Task } from '../task.entity'
 import { TaskRepository } from '../task.repository'
 import { TaskService } from './../task.service'
 
@@ -63,7 +62,9 @@ describe('TaskService', () => {
         it('throws an error as task is not found', async () => {
             taskRepository.findOne.mockResolvedValue(null)
 
-            expect(taskService.getTaskById(mockTask.id)).rejects.toThrow(NotFoundException)
+            expect(taskService.getTaskById(mockTask.id)).rejects.toThrow(
+                NotFoundException
+            )
         })
     })
 })

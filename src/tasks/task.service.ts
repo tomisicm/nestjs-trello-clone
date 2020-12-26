@@ -32,7 +32,7 @@ export class TaskService {
         return found
     }
 
-    async createTask(createTaskDto : CreateTaskDto): Promise<Task> {
+    async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
         const { title, description } = createTaskDto
 
         const newTask = await this.taskRepository.save({
@@ -53,7 +53,7 @@ export class TaskService {
         return taskToBeUpdated
     }
 
-    async deleteTaskById(id: number): Promise<Boolean> {
+    async deleteTaskById(id: number): Promise<boolean> {
         const result = await this.taskRepository.delete(id)
 
         if (result.affected === 0) {

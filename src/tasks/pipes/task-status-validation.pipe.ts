@@ -2,9 +2,10 @@ import { BadRequestException, PipeTransform } from '@nestjs/common'
 import { TaskStatus } from '../task-status.enum'
 
 export class TaskStatusValidationPipe implements PipeTransform {
-
     readonly allowedStatuses = [
-        TaskStatus.OPEN,  TaskStatus.IN_PROGRESS, TaskStatus.COMPLETED,
+        TaskStatus.OPEN,
+        TaskStatus.IN_PROGRESS,
+        TaskStatus.COMPLETED
     ]
 
     transform(value: any) {
@@ -20,5 +21,4 @@ export class TaskStatusValidationPipe implements PipeTransform {
     isStatusValid(status) {
         return this.allowedStatuses.includes(status)
     }
-
 }

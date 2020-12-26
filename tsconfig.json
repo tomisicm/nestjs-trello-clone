@@ -11,5 +11,6 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true
-  }
+  },
+  // "exclude": ["node_modules", "build", "config", "doc", "env", "public", "scripts", "./src/**/*.test.ts", "/db-data/*"] // => ./src/**/*.test.ts" is the glob exclusion that is causing the lint errors
 }
