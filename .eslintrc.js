@@ -21,9 +21,15 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/semi': ["error", "never"],
-    "semi": [ "error", "never" ],
+    '@typescript-eslint/semi': ['error', 'never'],
+    'semi': [ 'error', 'never' ],
     'indent': ['error', 4],
+    'jest/expect-expect': [
+      'error',
+      {
+        'assertFunctionNames': ['expect', 'request.*.expect', 'request.**.expect', 'request.*.expect*']
+      }
+    ]
   },
-  ignorePatterns: [ "db-data" ]
+  ignorePatterns: [ 'db-data' ]
 };

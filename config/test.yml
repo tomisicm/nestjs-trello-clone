@@ -2,3 +2,6 @@ db:
   host: 'localhost'
   username: 'postgres'
   password: 'password'
+
+jwt:
+  secret: 'testsecret'

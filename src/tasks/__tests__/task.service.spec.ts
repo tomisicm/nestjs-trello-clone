@@ -21,10 +21,7 @@ describe('TaskService', () => {
 
     beforeEach(async () => {
         const module = await Test.createTestingModule({
-            providers: [
-                TaskService,
-                { provide: TaskRepository, useFactory: mockTaskRepository }
-            ]
+            providers: [TaskService, { provide: TaskRepository, useFactory: mockTaskRepository }]
         }).compile()
 
         taskService = await module.get<TaskService>(TaskService)
@@ -65,9 +62,7 @@ describe('TaskService', () => {
         it('throws an error as task is not found', async () => {
             taskRepository.findOne.mockResolvedValue(null)
 
-            await expect(taskService.getTaskById(mockTask.id)).rejects.toThrow(
-                NotFoundException
-            )
+            await expect(taskService.getTaskById(mockTask.id)).rejects.toThrow(NotFoundException)
         })
     })
 
@@ -102,12 +97,9 @@ describe('TaskService', () => {
         it('calls taskRepository.save() and succesfully retrive and return the task', async () => {
             expect(taskRepository.save).not.toHaveBeenCalled()
             taskRepository.save.mockResolvedValue(mockTask)
-            taskService.getTaskById = jest.fn().mockResolvedValue(mockTask)
+            jest.spyOn(taskService, 'getTaskById').mockImplementation().mockResolvedValue(mockTask)
 
-            const result = await taskService.updateTask(
-                mockTask.id,
-                'IN_PROGRESS'
-            )
+            const result = await taskService.updateTask(mockTask.id, 'IN_PROGRESS')
 
             expect(taskRepository.save).toHaveBeenCalled()
             expect(result).toEqual({ ...mockTask, status: 'IN_PROGRESS' })
@@ -120,9 +112,9 @@ describe('TaskService', () => {
                 status: 'IN_PROGRESS'
             })
 
-            await expect(
-                taskService.updateTask(mockTask.id, 'IN_PROGRESS')
-            ).rejects.toThrow(NotFoundException)
+            await expect(taskService.updateTask(mockTask.id, 'IN_PROGRESS')).rejects.toThrow(
+                NotFoundException
+            )
         })
     })
 
@@ -150,9 +142,7 @@ describe('TaskService', () => {
                 affected: 0
             })
 
-            await expect(
-                taskService.deleteTaskById(mockTask.id)
-            ).rejects.toThrow(NotFoundException)
+            await expect(taskService.deleteTaskById(mockTask.id)).rejects.toThrow(NotFoundException)
         })
     })
 })
