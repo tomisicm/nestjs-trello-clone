@@ -1,6 +1,25 @@
-version: '3.1'
+version: '3.3'
 
 services:
+
+  service-nest:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    environment:
+      - DATABASE_URL=postgres://postgres:password@service-db:5432/postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    depends_on:
+      - service-db
+    volumes:
+      - ./src:/app/src
+      - .env:/app/.env
+    ports:
+      - "3000:3000"
 
   service-db:
     image: postgres
@@ -11,9 +30,9 @@ services:
       - POSTGRES_DATABASE=postgres
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-      - ./db-data:/var/lib/postgresql/data
+      - ./../db-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
 
 volumes:
   db-data:

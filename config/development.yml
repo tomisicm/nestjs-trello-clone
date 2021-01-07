@@ -1,8 +1,8 @@
 db:
-  host: 'localhost'
+  host: 'service-db'
   username: 'postgres'
   password: 'password'
-  synchronize: true
+  synchronize: false
 
 jwt:
   secret: 'topsecret'
