@@ -3,6 +3,6 @@ db:
   database: 'dek5p3765fr9pe'
   username: 'eeziezsrrbjhrb'
   password: 'ec6497c61980a501c447a3007b833f2669a5d95a36109a7ef1bb18502986c5c5'
-  uri: postgres://eeziezsrrbjhrb:ec6497c61980a501c447a3007b833f2669a5d95a36109a7ef1bb18502986c5c5@ec2-79-125-59-247.eu-west-1.compute.amazonaws.com:5432/dek5p3765fr9pe
+  url: postgres://eeziezsrrbjhrb:ec6497c61980a501c447a3007b833f2669a5d95a36109a7ef1bb18502986c5c5@ec2-79-125-59-247.eu-west-1.compute.amazonaws.com:5432/dek5p3765fr9pe
   synchronize: false
   port: 5432
