@@ -5,10 +5,9 @@ import { ConfigService } from './config.service'
     providers: [
         {
             provide: ConfigService,
-            useValue: new ConfigService
+            useValue: new ConfigService()
         }
     ],
     exports: [ConfigService]
 })
-
 export class ConfigModule {}
