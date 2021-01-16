@@ -21,6 +21,7 @@ export class UserRepository extends Repository<User> {
                 // duplicate username
                 throw new ConflictException('Username already exits.')
             } else {
+                console.error(e)
                 throw new InternalServerErrorException()
             }
         }
