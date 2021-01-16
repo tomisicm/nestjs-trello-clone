@@ -1,10 +1,14 @@
-type variables = { APP_ENV: string }
+type variables = {
+    APP_ENV: string,
+    POSTGRES_DATABASE: string
+}
 
 export class ConfigService {
     constructor() {}
 
     cache: variables = {
-        APP_ENV: process.env.NODE_ENV
+        APP_ENV: process.env.NODE_ENV,
+        POSTGRES_DATABASE: process.env.POSTGRES_DATABASE
     }
 
     accessEnv(key: string, defaultValue: any) {
