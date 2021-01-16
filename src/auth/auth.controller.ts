@@ -8,7 +8,11 @@ export class AuthController {
 
     @Post('/signup')
     async signUp(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto) {
-        return await this.authService.signUp(authCredentialsDto)
+        try {
+            return await this.authService.signUp(authCredentialsDto)
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     @Post('/signin')
@@ -20,5 +24,11 @@ export class AuthController {
     @UseGuards(AuthGuard())
     async getLoggedInUser(@Request() request) {
         return request.user
+    }
+
+    @Get('/test')
+    @UseGuards(AuthGuard())
+    async getTest(@Request() request) {
+        return 'test successfull'
     }
 }
