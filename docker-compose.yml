@@ -8,11 +8,14 @@ services:
       context: .
     restart: always
     environment:
+      - DATABASE_TYPE=postgres
       - DATABASE_URL=postgres://postgres:password@service-db:5432/postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
       - POSTGRES_DATABASE=postgres
       - POSTGRES_HOST_AUTH_METHOD=trust
+    env_file:
+      - .env
     depends_on:
       - service-db
     volumes:

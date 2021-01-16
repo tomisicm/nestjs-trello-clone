@@ -1,21 +1,18 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import * as config from 'config'
+import ConfigService from './config.service'
 
 const dbConfig = config.get('db')
 
-console.error(dbConfig)
-console.error('--------------------------------------')
-console.error(process.env)
-console.error('--------------------------------------')
+console.error(ConfigService)
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
-    type: dbConfig.type,
-    host: dbConfig.host,
-    // port: dbConfig.port,
-    // username: dbConfig.username,
-    // password: dbConfig.password,
-    // database: dbConfig.dababase,
-    url: dbConfig.url,
+    type: ConfigService.accessEnv('DATABASE_TYPE', dbConfig.type),
+    host: ConfigService.accessEnv('DATABASE_HOST', dbConfig.host),
+    port: ConfigService.accessEnv('DATABASE_PORT', dbConfig.port),
+    username: ConfigService.accessEnv('DATABASE_USERNAME', dbConfig.username),
+    password: ConfigService.accessEnv('DATABASE_PASSWORD', dbConfig.password),
+    database: ConfigService.accessEnv('POSTGRES_DATABASE', dbConfig.dababase),
     entities: [__dirname + '/../**/*.entity.js'],
     synchronize: dbConfig.synchronize
 }
